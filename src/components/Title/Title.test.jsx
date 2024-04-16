@@ -3,17 +3,34 @@ import { Title } from './Title';
 
 describe('Title', () => {
 
+    const text = 'Hello';
+
     it('Should render title with children', () => {
-        const text = 'Hello';
 
         render(<Title>{text}</Title>)
 
-        expect(screen.getByText(text));
+        expect(screen.getByText(text)).toBeInTheDocument();
     });
 
-    it.todo('Should render title with the correct tag');
+    it('Should render title with the correct tag', () => {
+        
+        const { container } = render(<Title level={2}>{text}</Title>);
 
-    it.todo('Should render title with the correct className');
+        expect(container.querySelector('h2')).toBeInTheDocument();
+
+    });
+
+    it('Should render title with the correct className', () => {
+
+        render(<Title className='test1'>{text}</Title>)
+
+        const element =  screen.getByText(text)
+
+        expect(element).toBeInTheDocument();
+        expect(element).toHaveClass('test1');
+        expect(element).toHaveClass('title');
+
+    });
 
 
 });
