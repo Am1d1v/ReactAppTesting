@@ -12,7 +12,12 @@ const config = {
         '^.+\\.(js|jsx)$': 'babel-jest'
     },
 
-    moduleFileExtensions: ['js', 'jsx']
+    moduleFileExtensions: ['js', 'jsx'],
+
+    moduleNameMapper: {
+        '^.+\\.svg$': 'jest-svg-transformer',
+        '^.+\\.(css)$': 'identity-obj-proxy'
+    }
   };
   
   export default config;
