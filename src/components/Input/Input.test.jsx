@@ -39,10 +39,13 @@ describe('User Input Test', () => {
 
     it('Should render the input with the correct label', () => {
         const tempLabel = 'Temporary label';
-
         render(<Input placeholder={testPlaceHolder} label={tempLabel} />);
-
         expect(screen.getByLabelText(tempLabel)).toBeInTheDocument();
+    });
+
+    it('Should render the input with the correct value', () => {
+        render(<Input placeholder={testPlaceHolder} value="123" onChange={jest.fn()}/>);
+        expect(screen.getByDisplayValue('123')).toBeInTheDocument();
     });
 
 
