@@ -27,6 +27,9 @@ describe('User Input Test', () => {
 
         const containerEl = container.querySelector('.formControl.containerTest')
         expect(containerEl).toBeInTheDocument();
+
+        const element = screen.getByPlaceholderText(testPlaceHolder);
+        expect(element).toHaveClass('input')
     });
 
 
