@@ -1,5 +1,6 @@
 import { useId } from 'react';
 import cn from 'clsx';
+import { UserEvent } from '@testing-library/user-event';
 
 import style from './Input.module.css';
 
