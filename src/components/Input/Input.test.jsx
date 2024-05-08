@@ -37,5 +37,13 @@ describe('User Input Test', () => {
         expect(screen.queryByTestId('input-label')).not.toBeInTheDocument();
     });
 
+    it('Should render the input with the correct label', () => {
+        const tempLabel = 'Temporary label';
+
+        render(<Input placeholder={testPlaceHolder} label={tempLabel} />);
+
+        expect(screen.getByLabelText(tempLabel)).toBeInTheDocument();
+    });
+
 
 });
