@@ -32,5 +32,10 @@ describe('User Input Test', () => {
         expect(element).toHaveClass('input')
     });
 
+    it('Should render input without a label', () => {
+        render(<Input placeholder={testPlaceHolder}/>)
+        expect(screen.queryByTestId('input-label')).not.toBeInTheDocument();
+    });
+
 
 });
