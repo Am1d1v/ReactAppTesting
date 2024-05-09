@@ -1,4 +1,4 @@
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, waitFor } from "@testing-library/react";
 import { Form } from "./Form";
 
 
@@ -28,6 +28,30 @@ describe('User Form test', () => {
 
         // Check that onSubmit have been called 1 time
         expect(onSubmit).toHaveBeenCalledTimes(1);
+    });
+
+    it('Should invoke the onSuccess callback', async () => {
+        const onSuccess = jest.fn();
+        const {container} = render(<Form onSubmit={jest.fn()} onSuccess={onSuccess}/>);
+        const formHolder = container.querySelector('form');
+
+        fireEvent.submit(formHolder);
+
+        await waitFor(() => {
+            expect(onSuccess).toHaveBeenCalled();
+        });
+    });
+
+    it('Should invoke the onError callback', async() => {
+        const onError = jest.fn();
+        const {container} = render(<Form onSubmit={() => Promise.reject()} onError={onError}/>);
+        const formHolder = container.querySelector('form');
+
+        fireEvent.submit(formHolder);
+
+        await waitFor(() => {
+            expect(onError).toHaveBeenCalled();
+        });
     });
 
 });
