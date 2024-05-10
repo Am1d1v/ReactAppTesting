@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import './App.css';
 import { Form } from './components/Form/Form';
 import { Input } from './components/Input';
@@ -7,9 +6,13 @@ import { Title } from './components/Title/Title';
 import { validatePassword } from './helpers/validatePassword';
 import { wait } from './helpers/wait';
 import { Text } from './components/Text';
+import { useCreateUser } from './hooks/use-create-user';
 
 function App() {
-  const [successMessage, setSuccessMessage] = useState('');
+
+  const {successMessage, errorMessage, onSubmit, onSuccess, onError} = useCreateUser();
+
+ /*   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const onSubmit = async ({ password }) => {
@@ -29,7 +32,7 @@ function App() {
 
   const onError = (error) => {
     setErrorMessage(error.message);
-  };
+  }; */
 
   return (
     <>
