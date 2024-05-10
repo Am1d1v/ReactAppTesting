@@ -1,4 +1,4 @@
-import { renderHook } from "@testing-library/react"; 
+import { renderHook, act } from "@testing-library/react"; 
 import { useCreateUser } from "../use-create-user";
 
 describe('use-create-user custom hook', () => {
@@ -17,6 +17,19 @@ describe('use-create-user custom hook', () => {
         expect(typeof result.current.onSubmit).toBe('function');
         expect(typeof result.current.onSuccess).toBe('function');
         expect(typeof result.current.successMessage).toBe('string');
+    });
+
+    it('Should set success message', () => {
+        const {result} =  renderHook(useCreateUser);
+
+        // Check that initial state of success message is empty string
+        expect(result.current.successMessage).toBe('');
+
+        act(() => {
+            result.current.onSuccess({name: 'Dima', password: '123'});
+        })
+
+        expect(result.current.successMessage).toBe('User Dima created with password 123');
     });
 
 });
