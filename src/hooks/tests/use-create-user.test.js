@@ -1,5 +1,6 @@
 import { renderHook, act } from "@testing-library/react"; 
 import { useCreateUser } from "../use-create-user";
+import { passwordValidationErrors } from "../../constants/validation";
 
 describe('use-create-user custom hook', () => {
 
@@ -43,6 +44,19 @@ describe('use-create-user custom hook', () => {
         })
 
         expect(result.current.errorMessage).toBe('Invalid password');
+    })
+
+    it('Should throw an error', async () => {
+        const {result} =  renderHook(useCreateUser);
+        const invalidPassword = '123'
+
+        await expect(result.current.onSubmit({password: invalidPassword})).rejects.toThrow(passwordValidationErrors.length)
+    });
+
+    it('Should not throw an error', async () => {
+        const {result} =  renderHook(useCreateUser);
+
+        await expect(result.current.onSubmit({password: 'Validpassword123!'})).resolves.toBe();
     })
 
 });
