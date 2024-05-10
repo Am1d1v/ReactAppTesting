@@ -19,7 +19,7 @@ describe('use-create-user custom hook', () => {
         expect(typeof result.current.successMessage).toBe('string');
     });
 
-    it('Should set success message', () => {
+    it('Should set the success message', () => {
         const {result} =  renderHook(useCreateUser);
 
         // Check that initial state of success message is empty string
@@ -31,5 +31,18 @@ describe('use-create-user custom hook', () => {
 
         expect(result.current.successMessage).toBe('User Dima created with password 123');
     });
+
+    it('Should set the error message', () => {
+        const {result} =  renderHook(useCreateUser);
+
+        // Check that initial state of error message is empty string
+        expect(result.current.errorMessage).toBe('');
+
+        act(() => {
+            result.current.onError(new Error('Invalid password'));
+        })
+
+        expect(result.current.errorMessage).toBe('Invalid password');
+    })
 
 });
