@@ -19,10 +19,10 @@ describe('App Integrational test', () => {
         expect(title).toBeInTheDocument();
     });
 
-    it.todo('Should render error message when form was submit with a weak password', () => {
+    it('Should render error message when form was submit with a weak password', async () => {
         render(<App />);    
 
-        const userName = screen.getByLabelText(/User name/);
+        const userNameInput = screen.getByLabelText(/User name/);
         const passwordInput = screen.getByLabelText(/Password/);
         const submitButton = screen.getByRole('button', {name: /Create user/});
         const successMessage = screen.queryByText(/created with password/);
@@ -30,6 +30,15 @@ describe('App Integrational test', () => {
 
         expect(successMessage).not.toBeInTheDocument();
         expect(errorMessage).not.toBeInTheDocument();
+
+        act(() => {
+            fireEvent.change(userNameInput, {target: {value: 'Dima'}})
+            fireEvent.change(passwordInput, {target: {value: '!Pas123'}})
+            fireEvent.click(submitButton);
+        })
+
+        const errorMessageAfterSubmit = await screen.findByText(/Password must be at least 8 characters long/);
+        expect(errorMessageAfterSubmit).toBeInTheDocument();
     });
 
     it.todo('Should render successfull messafe after successfull submit');
