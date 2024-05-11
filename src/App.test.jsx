@@ -1,5 +1,8 @@
 import App from "./App";
 import { render, screen, fireEvent, act, waitFor } from "@testing-library/react";
+import * as waitMock from './helpers/wait';
+
+const waitSpy = jest.spyOn(waitMock, 'wait');
 
 describe('App Integrational test', () => {
 
@@ -41,6 +44,27 @@ describe('App Integrational test', () => {
         expect(errorMessageAfterSubmit).toBeInTheDocument();
     });
 
-    it.todo('Should render successfull messafe after successfull submit');
+    it('Should render successfull message after successfull submit', () => {
+        render(<App />);    
+
+        const userNameInput = screen.getByLabelText(/User name/);
+        const passwordInput = screen.getByLabelText(/Password/);
+        const submitButton = screen.getByRole('button', {name: /Create user/});
+        const successMessage = screen.queryByText(/created with password/);
+        const errorMessage = screen.queryByText(/Password must be at least 8 characters long/);
+
+        expect(successMessage).not.toBeInTheDocument();
+        expect(errorMessage).not.toBeInTheDocument();
+
+        const promise = Promise.resolve();
+
+        waitSpy.mockImplementationOnce(() => promise);
+
+        act(() => {
+            fireEvent.change(userNameInput, {target: {value: 'Dima'}})
+            fireEvent.change(passwordInput, {target: {value: 'Qwerty123!@#'}})
+            fireEvent.click(submitButton);
+        })
+    });
 
 });
