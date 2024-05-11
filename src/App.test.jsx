@@ -44,7 +44,7 @@ describe('App Integrational test', () => {
         expect(errorMessageAfterSubmit).toBeInTheDocument();
     });
 
-    it('Should render successfull message after successfull submit', () => {
+    it('Should render successfull message after successfull submit', async () => {
         render(<App />);    
 
         const userNameInput = screen.getByLabelText(/User name/);
@@ -65,6 +65,9 @@ describe('App Integrational test', () => {
             fireEvent.change(passwordInput, {target: {value: 'Qwerty123!@#'}})
             fireEvent.click(submitButton);
         })
+
+        const successMessageAfterSubmit = await screen.findByText(/created with password/);
+        expect(successMessageAfterSubmit).toBeInTheDocument();
     });
 
 });
