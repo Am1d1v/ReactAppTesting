@@ -19,7 +19,18 @@ describe('App Integrational test', () => {
         expect(title).toBeInTheDocument();
     });
 
-    it.todo('Should render error message when form was submit with a weak password');
+    it.todo('Should render error message when form was submit with a weak password', () => {
+        render(<App />);    
+
+        const userName = screen.getByLabelText(/User name/);
+        const passwordInput = screen.getByLabelText(/Password/);
+        const submitButton = screen.getByRole('button', {name: /Create user/});
+        const successMessage = screen.queryByText(/created with password/);
+        const errorMessage = screen.queryByText(/Password must be at least 8 characters long/);
+
+        expect(successMessage).not.toBeInTheDocument();
+        expect(errorMessage).not.toBeInTheDocument();
+    });
 
     it.todo('Should render successfull messafe after successfull submit');
 
