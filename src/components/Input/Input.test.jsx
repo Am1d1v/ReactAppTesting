@@ -10,27 +10,29 @@ function renderComponent(props){
 
 describe('User Input Test', () => {
 
-    it('Shloud render the input', () => {
+    it('Should render the input', () => {
         render(<Input placeholder={testPlaceHolder} />);
         expect(screen.getByPlaceholderText(testPlaceHolder)).toBeInTheDocument();
     });
 
-    it('Shloud render the input using renderComponent()', () => {
+    it('Should render the input using renderComponent()', () => {
         renderComponent();
         expect(screen.getByPlaceholderText(testPlaceHolder)).toBeInTheDocument();
     });
 
-    it('Shloud render the input with correct type', () => {
+
+    it('Should render the input with correct type', () => {
         render(<Input placeholder={testPlaceHolder} type="checkbox" />);
         expect(screen.getByRole('checkbox')).toBeInTheDocument();
     });
 
-    it('Shloud render the input with correct type using renderComponent()', () => {
-        renderComponent();
+    it('Should render the input with correct type using renderComponent()', () => {
+        renderComponent({type: 'checkbox'});
         expect(screen.getByRole('checkbox')).toBeInTheDocument();
     });
 
-    it('Shloud render the input with correct classname', () => {
+
+    it('Should render the input with correct classname', () => {
         const {container} = render(
         <Input 
           placeholder={testPlaceHolder}
@@ -42,10 +44,11 @@ describe('User Input Test', () => {
         expect(containerEl).toBeInTheDocument();
 
         const element = screen.getByPlaceholderText(testPlaceHolder);
-        expect(element).toHaveClass('input')
+        expect(element).toHaveClass('input');
+        expect(element).toHaveClass('inputTest');
     });
 
-    it('Shloud render the input with correct classname using renderComponent()', () => {
+    it('Should render the input with correct classname using renderComponent()', () => {
         renderComponent({
             inputClassName: 'input Test',
             containerClassName: "containerTest" 
@@ -55,8 +58,10 @@ describe('User Input Test', () => {
         expect(containerEl).toBeInTheDocument();
 
         const element = screen.getByPlaceholderText(testPlaceHolder);
-        expect(element).toHaveClass('input')
+        expect(element).toHaveClass('input');
+        expect(element).toHaveClass('inputTest');
     });
+
 
     it('Should render input without a label', () => {
         render(<Input placeholder={testPlaceHolder}/>)
@@ -68,6 +73,7 @@ describe('User Input Test', () => {
         expect(screen.queryByTestId('input-label')).not.toBeInTheDocument();
     });
 
+
     it('Should render the input with the correct label', () => {
         const tempLabel = 'Temporary label';
         render(<Input placeholder={testPlaceHolder} label={tempLabel} />);
@@ -77,9 +83,10 @@ describe('User Input Test', () => {
     it('Should render the input with the correct label using renderComponent()', () => {
         const tempLabel = 'Temporary label';
         
-        renderComponent();
+        renderComponent({label: tempLabel});
         expect(screen.getByLabelText(tempLabel)).toBeInTheDocument();
     });
+
 
     it('Should render the input with the correct value', () => {
         render(<Input placeholder={testPlaceHolder} value="123" onChange={jest.fn()}/>);
@@ -87,9 +94,13 @@ describe('User Input Test', () => {
     });
 
     it('Should render the input with the correct value using renderComponent()', () => {
-        renderComponent();
+        renderComponent({value: '123',
+                         onChange: jest.fn()
+        });
+        
         expect(screen.getByDisplayValue('123')).toBeInTheDocument();
     });
+
 
     it('Should invoke the onChange callback', async () => {
         const onChange = jest.fn();
@@ -104,6 +115,21 @@ describe('User Input Test', () => {
         // expect(onChange).toHaveBeenCalledTimes(1);
 
 
+        // User Event way
+        await userEvent.type(element, '45');
+        expect(onChange).toHaveBeenCalledTimes(2);
+    });
+
+    it('Should invoke the onChange callback', async () => {
+        const onChange = jest.fn();
+        renderComponent({
+            value: '123',
+            onChange: onChange
+        })
+
+        // Get single element
+        const element = screen.getByPlaceholderText(testPlaceHolder);
+        
         // User Event way
         await userEvent.type(element, '45');
         expect(onChange).toHaveBeenCalledTimes(2);
