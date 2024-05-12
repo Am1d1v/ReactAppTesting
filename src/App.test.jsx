@@ -75,6 +75,8 @@ describe('App Integrational test', () => {
 
         const form = screen.getByRole('form');
         const userNameInput = within(form).getByLabelText(/User name/);
-    })
+        const passwordInput = within(form).getByLabelText(/Password/);
+        const submitButton = within(form);
+    });
 
 });
