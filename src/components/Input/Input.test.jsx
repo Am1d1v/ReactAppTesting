@@ -2,12 +2,22 @@ import { Input } from "./Input";
 import { render, screen, fireEvent } from "@testing-library/react";
 import {  userEvent } from "@testing-library/user-event";
 
-const testPlaceHolder = 'Test Placeholder'
+const testPlaceHolder = 'Test Placeholder';
+
+function renderComponent(props){
+    return render(<Input placeholder={testPlaceHolder} {...props} />)
+}
 
 describe('User Input Test', () => {
 
     it('Shloud render the input', () => {
         render(<Input placeholder={testPlaceHolder} />);
+        
+        expect(screen.getByPlaceholderText(testPlaceHolder)).toBeInTheDocument();
+    });
+
+    it('Shloud render the input using renderComponent()', () => {
+        renderComponent();
         
         expect(screen.getByPlaceholderText(testPlaceHolder)).toBeInTheDocument();
     });
