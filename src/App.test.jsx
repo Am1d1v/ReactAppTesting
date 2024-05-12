@@ -1,5 +1,5 @@
 import App from "./App";
-import { render, screen, fireEvent, act, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, act, waitFor, logRoles, within } from "@testing-library/react";
 import * as waitMock from './helpers/wait';
 
 const waitSpy = jest.spyOn(waitMock, 'wait');
@@ -69,5 +69,12 @@ describe('App Integrational test', () => {
         const successMessageAfterSubmit = await screen.findByText(/created with password/);
         expect(successMessageAfterSubmit).toBeInTheDocument();
     });
+
+    it('Should render App with form elements and a title', () => {
+        render(<App />);
+
+        const form = screen.getByRole('form');
+        const userNameInput = within(form).getByLabelText(/User name/);
+    })
 
 });
