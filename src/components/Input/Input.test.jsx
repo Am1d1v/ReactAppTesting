@@ -12,19 +12,21 @@ describe('User Input Test', () => {
 
     it('Shloud render the input', () => {
         render(<Input placeholder={testPlaceHolder} />);
-        
         expect(screen.getByPlaceholderText(testPlaceHolder)).toBeInTheDocument();
     });
 
     it('Shloud render the input using renderComponent()', () => {
         renderComponent();
-        
         expect(screen.getByPlaceholderText(testPlaceHolder)).toBeInTheDocument();
     });
 
     it('Shloud render the input with correct type', () => {
         render(<Input placeholder={testPlaceHolder} type="checkbox" />);
+        expect(screen.getByRole('checkbox')).toBeInTheDocument();
+    });
 
+    it('Shloud render the input with correct type using renderComponent()', () => {
+        renderComponent();
         expect(screen.getByRole('checkbox')).toBeInTheDocument();
     });
 
@@ -43,8 +45,26 @@ describe('User Input Test', () => {
         expect(element).toHaveClass('input')
     });
 
+    it('Shloud render the input with correct classname using renderComponent()', () => {
+        renderComponent({
+            inputClassName: 'input Test',
+            containerClassName: "containerTest" 
+        });
+
+        const containerEl = screen.getByRole('group');
+        expect(containerEl).toBeInTheDocument();
+
+        const element = screen.getByPlaceholderText(testPlaceHolder);
+        expect(element).toHaveClass('input')
+    });
+
     it('Should render input without a label', () => {
         render(<Input placeholder={testPlaceHolder}/>)
+        expect(screen.queryByTestId('input-label')).not.toBeInTheDocument();
+    });
+
+    it('Should render input without a label using renderComponent()', () => {
+        renderComponent();
         expect(screen.queryByTestId('input-label')).not.toBeInTheDocument();
     });
 
@@ -54,8 +74,20 @@ describe('User Input Test', () => {
         expect(screen.getByLabelText(tempLabel)).toBeInTheDocument();
     });
 
+    it('Should render the input with the correct label using renderComponent()', () => {
+        const tempLabel = 'Temporary label';
+        
+        renderComponent();
+        expect(screen.getByLabelText(tempLabel)).toBeInTheDocument();
+    });
+
     it('Should render the input with the correct value', () => {
         render(<Input placeholder={testPlaceHolder} value="123" onChange={jest.fn()}/>);
+        expect(screen.getByDisplayValue('123')).toBeInTheDocument();
+    });
+
+    it('Should render the input with the correct value using renderComponent()', () => {
+        renderComponent();
         expect(screen.getByDisplayValue('123')).toBeInTheDocument();
     });
 
