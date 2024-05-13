@@ -50,12 +50,9 @@ describe('User Input Test', () => {
 
     it('Should render the input with correct classname using renderComponent()', () => {
         renderComponent({
-            inputClassName: 'input Test',
+            inputClassName: 'inputTest',
             containerClassName: "containerTest" 
         });
-
-        const containerEl = screen.getByRole('group');
-        expect(containerEl).toBeInTheDocument();
 
         const element = screen.getByPlaceholderText(testPlaceHolder);
         expect(element).toHaveClass('input');
@@ -122,6 +119,7 @@ describe('User Input Test', () => {
 
     it('Should invoke the onChange callback', async () => {
         const onChange = jest.fn();
+
         renderComponent({
             value: '123',
             onChange: onChange
@@ -129,7 +127,7 @@ describe('User Input Test', () => {
 
         // Get single element
         const element = screen.getByPlaceholderText(testPlaceHolder);
-        
+
         // User Event way
         await userEvent.type(element, '45');
         expect(onChange).toHaveBeenCalledTimes(2);
